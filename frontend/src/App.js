@@ -59,6 +59,10 @@ function App() {
 
   // 刪除 Todo
   const deleteTodo = async (id) => {
+    // 跳出確認視窗
+    const confirmDelete = window.confirm("確定要刪除這張卡片嗎？");
+    if (!confirmDelete) return; // 如果按取消，就不刪除
+
     try {
       await axios.delete(`http://localhost:5125/api/todos/${id}`);
       fetchTodos();
@@ -80,16 +84,17 @@ function App() {
 
       {/* 新增 Todo */}
       <div className="mb-6 p-4 bg-gray-100 rounded-lg shadow-md max-w-md mx-auto">
-        <h2 className="text-lg font-semibold mb-2">新增 To Do Task</h2>
+        <h3 className="text-lg font-semibold mb-2">Card Title*</h3>
         <input
           className="border p-2 w-full rounded mb-2"
-          placeholder="Title"
+          placeholder="Enter task title..."
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
         />
+        <h3 className="text-lg font-semibold mb-2">Card Description</h3>
         <input
           className="border p-2 w-full rounded mb-2"
-          placeholder="Description"
+          placeholder="Enter task description..."
           value={newDesc}
           onChange={(e) => setNewDesc(e.target.value)}
         />
@@ -97,7 +102,7 @@ function App() {
           className="bg-blue-500 text-white px-4 py-2 rounded w-full"
           onClick={addTodo}
         >
-          新增 To Do Task 卡片
+          Create Todo Task
         </button>
       </div>
 
@@ -166,13 +171,13 @@ function App() {
                             setEditStatus(todo.status);
                           }}
                         >
-                          修改
+                          Update
                         </button>
                         <button
                           className="bg-red-500 text-white px-2 py-1 rounded"
                           onClick={() => deleteTodo(todo.id)}
                         >
-                          刪除
+                          Delete
                         </button>
                       </div>
                     </>
