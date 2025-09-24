@@ -1,20 +1,40 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api/todos" // 根據後端修改
+  baseURL: "http://localhost:5125/api/todos" // 對應你的後端 port
 });
 
 export const getTodos = async () => {
-  const res = await api.get("/");
-  return res.data;
+  try {
+    const res = await api.get("/");
+    return res.data;
+  } catch (err) {
+    console.error("抓取 Todo 失敗:", err);
+    throw err;
+  }
 };
 
 export const createTodo = async (todo) => {
-  const res = await api.post("/", todo);
-  return res.data;
+  try {
+    const payload = {
+      title: todo.title,
+      description: todo.description,
+      Status: todo.status ?? 0,
+    };
+    const res = await api.post("/", payload);
+    return res.data;
+  } catch (err) {
+    console.error("新增 Todo 失敗:", err);
+    throw err;
+  }
 };
 
 export const updateTodoStatus = async (id, status) => {
-  const res = await api.patch(`/${id}`, { status });
-  return res.data;
+  try {
+    const res = await api.patch(`/${id}`, { Status: status });
+    return res.data;
+  } catch (err) {
+    console.error("更新 Todo 狀態失敗:", err);
+    throw err;
+  }
 };
