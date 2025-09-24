@@ -5,7 +5,7 @@ using TodoApp.Domain.Entities;
 namespace TodoApp.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/todos")]
 public class TodosController : ControllerBase
 {
     private readonly TodoService _service;
